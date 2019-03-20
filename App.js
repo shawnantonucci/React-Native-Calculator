@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 export default class App extends Component {
   constructor() {
@@ -23,6 +23,30 @@ export default class App extends Component {
   };
 
   render() {
+    let rows = [];
+    let nums = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [0, 0, "="]];
+    for (let i = 0; i < 4; i++) {
+      let row = [];
+      for (let j = 0; j < 3; j++) {
+        row.push(
+          <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnText}>{nums[i][j]}</Text>
+          </TouchableOpacity>
+        );
+      }
+      rows.push(<View style={styles.row}>{row}</View>);
+    }
+
+    let operations = ["+", "-", "×", "/"];
+    let ops = [];
+    for (let i = 0; i < 4; i++) {
+      ops.push(
+        <TouchableOpacity style={styles.btn}>
+          <Text style={[styles.btnText, styles.white]}>{operations[i]}</Text>
+        </TouchableOpacity>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.result}>
@@ -32,36 +56,9 @@ export default class App extends Component {
           <Text style={styles.calculationText}>121</Text>
         </View>
         <View style={styles.buttons}>
-          <View style={styles.numbers}>
-            <View style={styles.row}>
-              <Button title="0" />
-              <Button title="0" />
-              <Button title="0" />
-            </View>
-
-            <View style={styles.row}>
-              <Button title="0" />
-              <Button title="0" />
-              <Button title="0" />
-            </View>
-
-            <View style={styles.row}>
-              <Button title="0" />
-              <Button title="0" />
-              <Button title="0" />
-            </View>
-
-            <View style={styles.row}>
-              <Button title="0" />
-              <Button title="0" />
-              <Button title="0" />
-            </View>
-          </View>
+          <View style={styles.numbers}>{rows}</View>
           <View style={styles.operations}>
-            <Button title="+" />
-            <Button title="+" />
-            <Button title="+" />
-            <Button title="+" />
+            {ops}
           </View>
         </View>
       </View>
@@ -75,29 +72,41 @@ const styles = StyleSheet.create({
   },
   resultText: {
     fontSize: 30,
+    color: "white"
+  },
+  btn: {
+    flex: 1,
+    alignItems: "center",
+    alignSelf: "stretch",
+    justifyContent: "center"
+  },
+  btnText: {
+    fontSize: 30
+  },
+  white: {
     color: 'white'
   },
   calculationText: {
     fontSize: 24,
-    color: 'white'
+    color: "white"
   },
   row: {
     flex: 1,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    flexDirection: 'row'
+    justifyContent: "space-around",
+    alignItems: "center",
+    flexDirection: "row"
   },
   result: {
     flex: 2,
     backgroundColor: "red",
-    justifyContent: 'center',
-    alignItems: 'flex-end'
+    justifyContent: "center",
+    alignItems: "flex-end"
   },
   calculation: {
     flex: 1,
     backgroundColor: "green",
-    justifyContent: 'center',
-    alignItems: 'flex-end'
+    justifyContent: "center",
+    alignItems: "flex-end"
   },
   buttons: {
     flex: 7,
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
   },
   operations: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     backgroundColor: "black"
   }
 });
