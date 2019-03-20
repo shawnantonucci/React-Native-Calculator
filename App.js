@@ -7,55 +7,28 @@
  */
 
 import React, { Component } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Animated,
-  Easing
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default class App extends Component {
   constructor() {
     super();
-    this.RotateValueHolder = new Animated.Value(0);
-  }
-
-  componentDidMount() {
-    this.StartImageRotateFunction();
-  }
-
-  StartImageRotateFunction() {
-    this.RotateValueHolder.setValue(0);
-    Animated.timing(this.RotateValueHolder, {
-      toValue: 1,
-      duration: 5000,
-      easing: Easing.linear
-    }).start(() => this.StartImageRotateFunction());
+    this.state = {};
   }
 
   render() {
-    const RotateData = this.RotateValueHolder.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["0deg", "360deg"]
-    });
-
     return (
       <View style={styles.container}>
-        <Animated.Image
-          style={{
-            width: 200,
-            height: 200,
-            transform: [{ rotate: RotateData }]
-          }}
-          source={{
-            uri:
-              "https://arcweb.co/wp-content/uploads/2016/10/react-logo-1000-transparent.png"
-          }}
-        />
-        <Text style={styles.text}>Built with React Native :)</Text>
+        <View style={styles.half1}>
+          <Text style={styles.text}>This is 1</Text>
+        </View>
+        <View style={styles.half2}>
+          <View style={[styles.half21, styles.half2X]}>
+            <Text style={styles.text}>This is 2/1</Text>
+          </View>
+          <View style={[styles.half22, styles.half2X]}>
+            <Text style={styles.text}>This is 2/2</Text>
+          </View>
+        </View>
       </View>
     );
   }
@@ -63,13 +36,32 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  half1: {
+    flex: 1,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: 'center'
+  },
+  half2: {
+    flex: 1,
+    backgroundColor: "blue",
+    flexDirection: "row"
+  },
+  half2X: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: 'center'
+  },
+  half21: {
+    backgroundColor: "green"
+  },
+  half22: {
     backgroundColor: "black"
   },
   text: {
-    color: 'white',
-    fontSize: 24
+    color: "white",
+    fontSize: 30
   }
 });
