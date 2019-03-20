@@ -13,21 +13,37 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      resultText: ""
-    }
-    this.operations = ["Del", "+", "-", "×", "/"];
+      resultText: "",
+      calculationText: ""
+    };
+    this.operations = ["Del", "+", "-", "*", "/"];
   }
 
   calculateResult = () => {
     const text = this.state.resultText;
-    // now parse the text
+    console.log(text, eval(text));
+    this.setState({
+      calculationText: eval(text)
+    });
+  };
+
+  validate = () => {
+    const text = this.state.resultText;
+    switch (text.slice(-1)) {
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        return false;
+    }
+    return true;
   };
 
   buttonPressed = text => {
     console.log(text);
 
     if (text == "=") {
-      return this.calculateResult();
+      return this.validate() && this.calculateResult();
     }
 
     this.setState({
@@ -47,16 +63,16 @@ export default class App extends Component {
         break;
       case "+":
       case "-":
-      case "×":
+      case "*":
       case "/":
-        const lastChar = this.state.resultText.split('').pop();
+        const lastChar = this.state.resultText.split("").pop();
 
-        if(this.operations.indexOf(lastChar) > 0) return;
-        
+        if (this.operations.indexOf(lastChar) > 0) return;
+
         if (this.state.text == "") return;
         this.setState({
           resultText: this.state.resultText + operation
-        })
+        });
     }
   };
 
@@ -68,6 +84,7 @@ export default class App extends Component {
       for (let j = 0; j < 3; j++) {
         row.push(
           <TouchableOpacity
+            key={nums[i][j]}
             onPress={() => this.buttonPressed(nums[i][j])}
             style={styles.btn}
           >
@@ -75,17 +92,20 @@ export default class App extends Component {
           </TouchableOpacity>
         );
       }
-      rows.push(<View style={styles.row}>{row}</View>);
+      rows.push(<View key={i} style={styles.row}>{row}</View>);
     }
 
     let ops = [];
     for (let i = 0; i < 5; i++) {
       ops.push(
         <TouchableOpacity
+          key={this.operations[i]}
           style={styles.btn}
           onPress={() => this.operate(this.operations[i])}
         >
-          <Text style={[styles.btnText, styles.white]}>{this.operations[i]}</Text>
+          <Text style={[styles.btnText, styles.white]}>
+            {this.operations[i]}
+          </Text>
         </TouchableOpacity>
       );
     }
@@ -96,7 +116,9 @@ export default class App extends Component {
           <Text style={styles.resultText}>{this.state.resultText}</Text>
         </View>
         <View style={styles.calculation}>
-          <Text style={styles.calculationText}>121</Text>
+          <Text style={styles.calculationText}>
+            {this.state.calculationText}
+          </Text>
         </View>
         <View style={styles.buttons}>
           <View style={styles.numbers}>{rows}</View>
@@ -113,7 +135,7 @@ const styles = StyleSheet.create({
   },
   resultText: {
     fontSize: 30,
-    color: "white"
+    color: "black"
   },
   btn: {
     flex: 1,
@@ -122,14 +144,15 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   btnText: {
-    fontSize: 30
+    fontSize: 30,
+    color: "white"
   },
   white: {
     color: "white"
   },
   calculationText: {
     fontSize: 24,
-    color: "white"
+    color: "black"
   },
   row: {
     flex: 1,
@@ -139,13 +162,13 @@ const styles = StyleSheet.create({
   },
   result: {
     flex: 2,
-    backgroundColor: "red",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "flex-end"
   },
   calculation: {
     flex: 1,
-    backgroundColor: "green",
+    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "flex-end"
   },
@@ -155,11 +178,11 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 3,
-    backgroundColor: "yellow"
+    backgroundColor: "#434343"
   },
   operations: {
     flex: 1,
     justifyContent: "space-around",
-    backgroundColor: "black"
+    backgroundColor: "#636363"
   }
 });
