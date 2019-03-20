@@ -7,27 +7,29 @@
  */
 
 import React, { Component } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 export default class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {}
+  }
+
+  buttonPressed = () => {
+    //const username = this._username._lastNativeText;
+    //const password = this._password._lastNativeText;
+
+    console.log(this.state.username, this.state.password);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.half1}>
-          <Text style={styles.text}>This is 1</Text>
-        </View>
-        <View style={styles.half2}>
-          <View style={[styles.half21, styles.half2X]}>
-            <Text style={styles.text}>This is 2/1</Text>
-          </View>
-          <View style={[styles.half22, styles.half2X]}>
-            <Text style={styles.text}>This is 2/2</Text>
-          </View>
+        <View style={styles.result}></View>
+        <View style={styles.calculation}></View>
+        <View style={styles.buttons}>
+          <View style={styles.numbers}></View>
+          <View style={styles.operations}></View>
         </View>
       </View>
     );
@@ -38,30 +40,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  half1: {
+  result: {
+    flex: 2,
+    backgroundColor: 'red'
+  },
+  calculation: {
     flex: 1,
-    backgroundColor: "red",
-    justifyContent: "center",
-    alignItems: 'center'
+    backgroundColor: 'green'
   },
-  half2: {
+  buttons: {
+    flex: 7,
+    flexDirection: 'row'
+  },
+  numbers: {
+    flex: 3,
+    backgroundColor: 'yellow'
+  },
+  operations: {
     flex: 1,
-    backgroundColor: "blue",
-    flexDirection: "row"
-  },
-  half2X: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: 'center'
-  },
-  half21: {
-    backgroundColor: "green"
-  },
-  half22: {
-    backgroundColor: "black"
-  },
-  text: {
-    color: "white",
-    fontSize: 30
+    backgroundColor: 'black'
   }
 });
