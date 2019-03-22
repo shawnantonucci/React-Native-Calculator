@@ -16,7 +16,7 @@ export default class App extends Component {
       resultText: "",
       calculationText: ""
     };
-    this.operations = ["Del", "+", "-", "*", "/"];
+    this.operations = ["Clr", "Del", "+", "-", "*", "/"];
   }
 
   calculateResult = () => {
@@ -54,7 +54,7 @@ export default class App extends Component {
   operate = operation => {
     switch (operation) {
       case "Del":
-        if (this.state.text == "") return;
+        if (this.state.resultText == "") return;
         let text = this.state.resultText.split("");
         text.pop();
         this.setState({
@@ -67,12 +67,20 @@ export default class App extends Component {
       case "/":
         const lastChar = this.state.resultText.split("").pop();
 
+        if (this.state.resultText == "") return;
+
         if (this.operations.indexOf(lastChar) > 0) return;
 
-        if (this.state.text == "") return;
         this.setState({
           resultText: this.state.resultText + operation
         });
+        break;
+      case "Clr":  
+        this.setState({
+          resultText: "",
+          calculationText: ''
+        });
+        break;
     }
   };
 
@@ -92,7 +100,11 @@ export default class App extends Component {
           </TouchableOpacity>
         );
       }
-      rows.push(<View key={i} style={styles.row}>{row}</View>);
+      rows.push(
+        <View key={i} style={styles.row}>
+          {row}
+        </View>
+      );
     }
 
     let ops = [];
@@ -134,8 +146,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   resultText: {
-    fontSize: 30,
-    color: "black"
+    fontSize: 40,
+    color: "black",
+    marginRight: 10
   },
   btn: {
     flex: 1,
@@ -151,8 +164,10 @@ const styles = StyleSheet.create({
     color: "white"
   },
   calculationText: {
-    fontSize: 24,
-    color: "black"
+    fontSize: 34,
+    color: "red",
+    fontWeight: "bold",
+    marginRight: 10
   },
   row: {
     flex: 1,

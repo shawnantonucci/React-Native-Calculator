@@ -1,4 +1,4 @@
-package com.calculator;
+package com.simplereact.calculatorapp;
 
 import android.app.Application;
 
