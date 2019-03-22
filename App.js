@@ -61,24 +61,25 @@ export default class App extends Component {
           resultText: text.join("")
         });
         break;
+
       case "+":
       case "-":
       case "*":
       case "/":
         const lastChar = this.state.resultText.split("").pop();
 
-        if (this.state.resultText == "") return;
-
         if (this.operations.indexOf(lastChar) > 0) return;
+        if (this.state.resultText == "") return;
 
         this.setState({
           resultText: this.state.resultText + operation
         });
         break;
-      case "Clr":  
+
+      case "Clr":
         this.setState({
           resultText: "",
-          calculationText: ''
+          calculationText: ""
         });
         break;
     }
@@ -108,7 +109,7 @@ export default class App extends Component {
     }
 
     let ops = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       ops.push(
         <TouchableOpacity
           key={this.operations[i]}
